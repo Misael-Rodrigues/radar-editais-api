@@ -1,0 +1,146 @@
+🧠 Prompt para o Replit Agent – Projeto “Radar de Editais Automatizado”
+
+Crie um aplicativo web completo chamado Radar de Editais Automatizado, composto por frontend (HTML, CSS, JavaScript) e backend (Python com FastAPI), que funcione da seguinte forma:
+
+🎯 Objetivo geral
+
+Construir um sistema que busque automaticamente editais públicos publicados nas últimas 24 horas (D-1) em fontes oficiais, permita filtragem personalizada e envie alertas automáticos por e-mail aos usuários cadastrados.
+O modelo é inspirado no Radar do Edital do Guia da Licitação.
+
+🧩 Arquitetura solicitada
+
+Frontend:
+
+Desenvolver em HTML, CSS e JavaScript puro (sem frameworks).
+
+Criar interface limpa e moderna com:
+
+Tela de login/cadastro simples.
+
+Painel de filtros com campos:
+
+Palavras-chave (vários termos separados por vírgula).
+
+Estados (lista de UFs).
+
+Tipo de edital (pregão, concorrência, dispensa, etc.).
+
+Faixa de valor estimado (mínimo e máximo).
+
+Botão “Buscar Editais”.
+
+Tabela com resultados (título, órgão, modalidade, UF, data de publicação, link direto).
+
+Botão “Enviar alerta por e-mail”.
+
+Utilizar fetch API para consumir endpoints do backend.
+
+Backend (Python + FastAPI):
+
+Endpoints REST:
+
+GET /api/editais → retorna lista filtrada de editais.
+
+POST /api/filtros → salva configurações do usuário.
+
+POST /api/alerta → envia e-mail com editais filtrados.
+
+Criar função para coletar automaticamente os editais do dia anterior (D-1).
+
+Usar API pública do PNCP como fonte principal:
+
+https://pncp.gov.br/api/consulta/v1/contratacoes
+
+
+Parâmetros recomendados:
+
+data_publicacao_inicio = data de ontem (D-1)
+
+data_publicacao_fim = data de hoje
+
+uf = estado selecionado
+
+termo = palavra-chave
+
+Estruturar o retorno no formato JSON com:
+
+título, órgão, UF, modalidade, data de publicação, link do edital.
+
+Agendador automático:
+
+Implementar rotina diária usando APScheduler para executar às 08:00 (horário de Brasília):
+
+Buscar editais D-1 automaticamente.
+
+Salvar em banco de dados local (SQLite).
+
+Enviar alertas automáticos por e-mail aos usuários com filtros correspondentes.
+
+Banco de dados (SQLite):
+Tabelas:
+
+usuarios: id, nome, email, senha.
+
+filtros: id_usuario, palavras, estados, faixa_valor.
+
+editais: id, titulo, orgao, uf, data_publicacao, modalidade, link.
+
+historico_alertas: id_usuario, data_envio, qtd_editais.
+
+Envio de e-mail:
+
+Implementar envio via smtplib (SMTP padrão, compatível com Gmail ou SendGrid).
+
+O e-mail deve conter um resumo HTML dos editais encontrados (título + link).
+
+Extras:
+
+Adicionar função adicionar_fonte(url, nome) no backend para permitir incluir novas fontes de editais públicas (por exemplo: Compras.gov.br, Licitações-e, BEC-SP).
+
+Permitir atualização manual de resultados via botão “Atualizar Agora”.
+
+Incluir logs de execução e erros no terminal.
+
+🎨 Design sugerido
+
+Paleta de cores:
+
+Azul royal (#2563EB)
+
+Verde esmeralda (#10B981)
+
+Cinza neutro (#64748B)
+
+Branco puro de fundo
+
+Estilo limpo, minimalista, com sombras sutis e tabelas bem delimitadas.
+
+Responsivo (ajustar bem em desktop e tablet).
+
+⚙️ Instruções adicionais
+
+Estruture o projeto em pastas:
+
+/frontend (HTML, CSS, JS)
+/backend (app.py, crawler.py, email_sender.py, scheduler.py)
+
+
+Inclua um arquivo requirements.txt com todas as dependências (FastAPI, APScheduler, requests, aiosmtplib, etc.).
+
+Configure o backend para rodar localmente em localhost:8000.
+
+Permita acesso CORS do frontend.
+
+Após gerar o app, inicialize o servidor e mostre a URL local para testes.
+
+🧮 Resumo do fluxo do sistema
+
+Usuário faz login e define filtros.
+
+Backend coleta automaticamente editais D-1 (PNCP API).
+
+Editais são filtrados e exibidos na tabela do dashboard.
+
+Sistema envia alertas por e-mail diariamente às 08:00.
+
+Admin pode adicionar novas fontes públicas no painel.
