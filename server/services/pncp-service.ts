@@ -23,7 +23,7 @@ interface PNCPContractResponse {
  */
 export class PNCPService {
   // ✅ Endpoint oficial da API pública do PNCP (retorna JSON)
-  private baseUrl = "https://pncp.gov.br/api/pncp/v1/consulta/contratacoes";
+  private baseUrl = "https://pncp.gov.br/api/pncp/v1/consulta/contratacoes/publicacao";
 
   /**
    * Busca editais do PNCP com filtros opcionais
